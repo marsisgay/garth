@@ -1,0 +1,110 @@
+
+<template name= "index">
+<div style="padding:20px;">
+{{#unless signedin}}
+    {{#unless readinstructions}}
+        {{> hello}}
+        {{> about}}
+        <p><a href="/instructions">Instructions</a></p>
+    {{/unless}}
+{{/unless}} 
+
+{{#unless gamestarted}}
+    {{#if signedin}}
+        <h2>Ready?</h2>
+        <p><input type="button" id="start" value="Go to Round One"></p>
+    {{/if}}
+{{/unless}}
+</div>
+</template>
+
+<template name="hello">
+    <div style="padding:20px;">
+    <h2>Welcome!</h2>
+    </div>
+</template>
+
+<template name ="about">
+    <div style="padding:20px;">
+    <p> Thanks so much for your five minutes! I really appreciate it.</p>
+    <p> I am a Masters Student at Maastricht University and I made this <br> 
+        game to collect some data for my thesis.
+   I can't   give too much <br> away lest I bias your behaviour,... 
+     but a more detailed <br> explanation will be provided at the end.</p>
+    <p> Please read the short instructions carefully!</p>
+    </div>
+</template>
+
+<template name ="instructions">
+   <div style="padding:20px;">
+    {{instructionstest}}
+    <h2>Instructions</h2>
+    <p> The game is made up of five short rounds.</p>    
+    <p> Each round is 30 seconds long. </p>
+    <p> In each round:</p>
+        <li> You must type the words that appear in the blue box in order to earn coins. </li>
+        <li> You will earn one coin per correctly typed word. </li>
+        <p></p>
+        <p></p>
+        <p> You need to win <strong> at least 15 coins </strong> in order to proceed to the next round. <br>
+            You will <strong> not </strong> be able to continue unless you secure the minimum number of coins.</p>
+        <p></p>
+        <p></p>
+        
+        <p> Good luck and have fun! </p> 
+     <p><a href="/signup">Ok!</a></p>
+</div>
+</template>
+
+
+<template name="signup">
+    <div style="padding:20px;">
+    <h2> Please provide the following particulars: </h2>
+    
+  <form class="form">
+    
+    <div class="form-group">
+        <label for="age">Your Age here:</label>
+      <input class="form-control" placeholder="Age" type="number" min="18" max="75" name="age" required/>
+    </div>
+    
+    <div class="form-group">
+        <label for="gender">Your Gender here:</label>
+      <select name="gender" class="form-control" placeholder="Gender" required>
+          <option value="default3">...</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+
+      <div class="form-group">
+          <label for="field">Your Field here:</label>
+      <select name="field" class="form-control" placeholder="Profession" required>
+          <option value="default">...</option>
+        <option value="business">Business, Finance, Economics</option>
+        <option value="science">Science and Technology</option>
+        <option value="culture">Arts and Culture</option>
+        <option value="professional">Other Professionals: Law, Health etc.</option>
+      </select>
+    </div>
+      
+            <div class="form-group">
+                <label for="Level">Your Level in that Field here:</label>
+      <select name="Level" class="form-control" placeholder="Level" required>
+          <option value="default2">...</option>
+        <option value="student">Student</option>
+        <option value="professional">Professional</option>
+      </select>
+    </div>
+      
+      
+    <div class="form-group">
+      <button type="submit">Submit</button>
+    </div>
+    
+    
+  </form>
+</div>
+    
+</template>
+

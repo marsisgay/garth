@@ -1,0 +1,181 @@
+
+<template name="main">
+
+    {{#if inround}}
+        {{> round}}
+    {{/if}}
+    
+    {{#if betweenround}}
+        {{#unless checked}}{{checkup}}{{/unless}}
+
+        {{#if passed}} <!-- check they have enough earnings to continue-->
+            {{> donate}} <!-- display the ranks according to group in this screen --> 
+        {{else}}
+            {{> receive}} <!-- ranks are not on display here, just check the giving array-->
+        {{/if}}
+    {{/if}}
+
+    {{#if endrounds}}
+         <p> Thanks so much for your time. You did a really good job!
+             Please answer these last two questions:</p>
+             {{> post}}
+
+    {{/if}}
+
+</template>
+
+<template name="round">
+
+      <style>
+          
+            #display{
+                text-align: center;
+                padding:10px;
+                width:150px;
+                height:50px;
+                margin:10px;
+                border:1px solid black;
+                background-color: #93ACF3;
+            }
+
+      </style>
+
+
+        <table width="80%" border="0" margin="10px">
+            <tr>
+            <td colspan="2" >
+            <h2>Welcome to Round {{roundcount}}</h2>
+            {{timer}}
+            <p>You've got {{countdown}} seconds left... </p>
+            <p>Your current earnings are {{myScore}}. </p>
+                <p></p>
+                <p></p>
+                <div id='display'> <h3>{{getWord}}</h3> </div>
+            
+            
+                <p></p>
+                <p></p>
+            <form class="newround">
+                <p align="left"><input type="text" name="myAttempt" placeholder="Type here"></p>
+                <p align="left"><input type="submit" value="Hit Enter, or click here to submit!"></p>
+            </form>
+            
+           </td>
+           </tr>    
+        </table>
+
+    
+</template>
+
+<template name="donate">
+    
+    <style>
+        div {
+    background-color: #FAF071;
+}
+    </style>
+    
+        <table width="100%" border="0">
+            <tr>
+                <td colspan="2" align="center" >   <p> <h3> Well done!!!</h3> <br> <h4> You have earned enough coins to proceed!</h4> </p></td>
+            </tr>
+            
+            <tr valign="center">
+            <td colspan="2" align="center" >
+                <p> ...however, not all the participants were as skilled as you... <br>
+                    Would you like to donate some coins so that another player may also proceed in the game? <br>
+            It costs 5 coins to save another player. </p>
+
+            {{#unless lastround}} This is half the amount of playing another round.
+            <p></p><p></p>
+            <p>You may save as many players as you like, even none, but you may not prevent yourself from playing the next round!</p>
+            {{/unless}}
+
+            {{#if lastround}}
+            <p> Seeing as it is the last round your limit has been extended. </p>
+            {{/if}}
+            <p></p><p></p>
+            <p></p><p></p>
+            <p>There are <strong>{{numPlayers}} </strong> players playing. </p>  
+            <p> Your current earnings are: {{myEarnings}} </p>
+            <hr>
+            </td>
+            </tr>
+            <p></p><p></p><p></p><p></p><p></p><p></p>
+            
+            <tr valign="center">
+            <td width="50%">
+            {{#if displayEarnings}}
+            
+                <p align="center">Your Earnings rank is: </p>
+                <p align="center"><strong>{{eRank}}</strong></p>
+                <p align="center">tied with {{tiedECount}} other players. </p>            
+            
+            {{/if}}
+            </td>
+            <td width="50%">
+            <p></p><p></p>
+            {{#if displaySocial}}
+            
+                <p align="center">Your Generosity rank is: </p>
+                <p align="center"><strong>{{sRank}}</strong></p>
+                <p align="center"> tied with {{tiedSCount}} other players.</p>            
+            
+            {{/if}}
+            </td>
+            </tr>
+            <p></p><p></p><p></p><p></p><p></p><p></p>
+            
+            <tr valign="center">
+                
+                <td colspan="2" align="center" >
+                <hr>
+                    {{#if stillWealthy}}
+                    <p><input type="button" id="donate" value="Save a Player"></p>
+                    <p>    You have saved {{theseDonations}} players this round.</p>
+                {{else}}
+                    <p> You have not enough to donate, but enough to proceed. </p>
+                {{/if}}
+                
+                <p>When you are ready to proceed <input type="button" id="nextround" value="Click here"></p>
+                </td>
+            </tr>    
+        </table>
+
+</template>
+
+<template name="receive">
+    <div style="padding:20px;">
+ {{#if rec_lastround}}
+ 
+ <p>That was the last round! Thank you for your time!</p>
+ <p>Please answer these last two questions: </p>
+ {{> post}}
+ <p>You can read more about the experiment here. </p>
+    <a href="/readmore">Read More</a>
+ {{/if}}
+    
+ 
+{{#unless rec_lastround}}    
+    {{#if predonationcheck}}      
+    <h4> Oh dear. </h4> <p> You did not earn enough coins to get through to the next round.<br>
+        Although ... perhaps you are in luck... <br>
+        Some players have donated some of their coins to give you a chance to continue playing!</p>
+        <p><input type="button" id="checkfordonations" value="Let's see.."></p>
+    {{/if}}
+    {{#unless predonationcheck}}
+        {{#if donationavailable}}
+        <h4>Alright!</h4> <p>Another player has donated you just enough coins to play another round!<br>
+            When you are ready for the next round <input type="button" id="nextroundR" value="Click here"></p>
+        {{/if}}
+        {{#unless donationavailable}}
+        <h4>Bad luck!</h4>  <p> Nobody has donated you a round..you are not able to continue playing. 
+            Thanks so much for your time, though!
+            You can read more about the experiment here. </p>
+            <a href="/readmore">Read More</a>
+        {{/unless}}
+    {{/unless}}
+{{/unless}}
+</div>
+</template>
+

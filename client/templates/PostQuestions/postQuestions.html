@@ -1,0 +1,55 @@
+<template name ="post">
+    <body>
+    <div style="padding:20px;">
+        
+        <h3> Please answer these last two questions : </h3>
+        
+        <p> How interesting did you find this game on a scale of 1 to 7?</p>
+        <input id="interesting" type="range" min="1" max="7" step="1"> {{#if displaychoice}}{{howinteresting}}{{/if}}
+        <p></p><p></p>
+        <p> Can you indicate on a scale of 1 to 100 how wealthy your parents are ? </p> {{#if displaychoice}}{{howwealthy}}{{/if}}
+        <input id="familywealth" type="range" min="1" max="100" step="1" value="50">
+        
+        <p></p><p></p>
+        <p><input id="done" type="button" value="Done"></p>
+        <p></p><p></p><p></p><p></p>
+        <hr>
+        <p></p><p></p><p></p><p></p>
+        <p>Thanks again for your time. </p>
+        <p>You can read more about the experiment here. </p>
+        <a href="/readmore">Read More</a>
+        
+         </div>
+    </body>
+</template>
+
+<template name="readmore">
+    <div style="padding:20px;">
+    
+        <h3>About the Experiment</h3>
+        
+        <p> This experiment is designed to test how giving behaviour is affected by competitiveness.</p>
+        <p> The players had either their Generosity Rank, their Earnings Rank, both ranks, or neither on display.  </p>
+        <p> This experiment aims to disentangle how this visibility drives giving behaviour. </p>
+        <p></p><p></p><p></p>
+        <p>Would you like to receive a nice infographic of the results of the study? <br>
+            If you are interested you may enter your email here:</p>
+        
+        <p></p>
+        <p></p>
+        <p></p>
+        <form>
+        <fieldset class="form-group">
+        <input type="email" class="form-control" id="Email" placeholder="Enter email">
+        </fieldset>
+        <small class="text-muted">Your email will not be shared with anyone else.</small>
+        <p></p>
+        <div class="form-group">
+        <button type="submit">Submit</button>
+        </div>
+        </form>
+        
+        <h4>Bye!</h4>
+    
+    </div>
+</template>
