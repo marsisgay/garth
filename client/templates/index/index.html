@@ -5,7 +5,7 @@
     {{#unless readinstructions}}
         {{> hello}}
         {{> about}}
-        <p><a href="/instructions">Instructions</a></p>
+        <p><input type="button" id="instructions" value="Instructions"></p>
     {{/unless}}
 {{/unless}} 
 
@@ -29,30 +29,55 @@
     <p> Thanks so much for your five minutes! I really appreciate it.</p>
     <p> I am a Masters Student at Maastricht University and I made this <br> 
         game to collect some data for my thesis.
-   I can't   give too much <br> away lest I bias your behaviour,... 
-     but a more detailed <br> explanation will be provided at the end.</p>
-    <p> Please read the short instructions carefully!</p>
+   I can't give too much <br> away lest I bias your behaviour,
+     but... a more detailed <br> explanation will be provided at the end.</p>
+    <p> Please read the instructions carefully!</p>
     </div>
 </template>
 
 <template name ="instructions">
    <div style="padding:20px;">
-    {{instructionstest}}
-    <h2>Instructions</h2>
-    <p> The game is made up of five short rounds.</p>    
-    <p> Each round is 30 seconds long. </p>
-    <p> In each round:</p>
-        <li> You must type the words that appear in the blue box in order to earn coins. </li>
-        <li> You will earn one coin per correctly typed word. </li>
-        <p></p>
-        <p></p>
-        <p> You need to win <strong> at least 15 coins </strong> in order to proceed to the next round. <br>
-            You will <strong> not </strong> be able to continue unless you secure the minimum number of coins.</p>
-        <p></p>
-        <p></p>
+    
+
+
+   {{instructionstest}}
+
+   <h2>Instructions</h2>
+    
+    <table width="60%" border="0" margin="10px" align="justify">
+        <tr>The game is made up of <strong> five rounds,</strong> each thirty seconds long. </tr>
+    <p></p><p></p>
+        <tr>In each round, you must type out the words that appear in the blue box in order to earn coins. 
+            You will earn one coin per correctly typed word and to pass each round, you need to <strong> earn at least 15 coins. </strong>
+        </tr>
+    <p></p><p></p>    
+        <tr>
+        The rounds cost <strong> 10 coins to play. </strong> Your first round is sponsored,
+        but thereafter you will have to pay 10 coins to play each round.
+        You retain your wealth for the duration of the game, so any savings you have from an early round can be used to play a later round.
+        <p></p><p></p>  
+        <p>{{#if displayEarnings}} In between each round you will be shown your Earnings rank. This indicates your wealth position relative to all the other players in the game based on how many coins you have. {{/if}} </p>
+        </tr>
+    <p></p><p></p>
+        <tr>Not everybody is going to make it... You have the option to help out 
+        some failed players at the end of every round at a cost
+        of <strong>2 coins per player.</strong> You may save as many players as you wish but you may not prevent yourself from playing the next round. i.e. you need to retain at least 10 coins.
+        <p></p><p></p>  
+        <p>{{#if displaySocial}} In between each round you will be shown your Generosity rank. This is based on the number of players you have saved throughout the game, and indicates your position relative to all the other players in the game. {{/if}} </p></tr>
+    <p></p><p></p>
+    
+    <tr>If <i>you</i> are in a bad way and do not have enough to proceed, it is possible that another player will send a donation your way.</tr>
+        <p></p><p></p>
         
-        <p> Good luck and have fun! </p> 
-     <p><a href="/signup">Ok!</a></p>
+      
+    </table>    
+    
+    <p></p><p></p>
+    <p> Just try make it through the five rounds! </p>     
+    <p> Good luck and have fun! </p> 
+    <p><a href="/signup">Ok!</a></p>
+    
+    
 </div>
 </template>
 

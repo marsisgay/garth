@@ -21,6 +21,8 @@ Session.set('Cgroup',false);
 Session.set('displayE',false);
 Session.set('displayS',false);
 
+Session.setDefault('groupset',false);
+
 Template.index.helpers({
     
     treatmentTest: function(){
@@ -64,18 +66,102 @@ Template.index.events({
         Session.set('inround',true);
         Session.set('roundcount',1);
         Router.go('main');
+    },
+    
+    'click #instructions':function(){
+        //set the groups
+        
+        var temp = myPlayers.find().fetch();
+        nPlayers = temp.length; myKey=nPlayers+1;
+        if(nPlayers===0){nPlayers=1;lastUsedGroup=4;}
+        else{
+            mytempID = myPlayers.findOne({key:myKey-1})._id;
+            lastUsedGroup = myPlayers.findOne(mytempID).group;
+        }
+
+        //Determine whether treatment or control
+        
+        if(lastUsedGroup === 1){
+            thisGroup = 2;
+            Session.set('ESgroup',true);
+            Session.set('Egroup',false);
+            Session.set('Sgroup',false);
+            Session.set('Cgroup',false);
+        }else if(lastUsedGroup ===2){
+            thisGroup = 3;
+            Session.set('Sgroup',true);
+            Session.set('Egroup',false);
+            Session.set('ESgroup',false);
+            Session.set('Cgroup',false);
+        }else if(lastUsedGroup===3){
+            thisGroup =4;
+            Session.set('Sgroup',false);
+            Session.set('Egroup',true);
+            Session.set('ESgroup',false);
+            Session.set('Cgroup',false);
+        }else{
+            thisGroup=1;
+            Session.set('Sgroup',false);
+            Session.set('Egroup',false);
+            Session.set('ESgroup',false);
+            Session.set('Cgroup',true);
+        }
+        
+        Eind = Session.get('Egroup');
+        Sind = Session.get('Sgroup');
+        ESind = Session.get('ESgroup');
+        
+        if(Eind || ESind){
+            Session.set('displayE',true);
+        }
+        if(Sind || ESind){
+            Session.set('displayS',true);
+        }
+        
+        
+        console.log('groups');
+        console.log("The previously assigned group is " + lastUsedGroup);
+        console.log("The assigned group is " + thisGroup);
+        console.log("The number of players so far is: " + myKey);
+
+//         load the values into the DB
+        myPlayers.insert({
+            age:0,
+            gender: 0,
+            field: 0,
+            level: 0,
+            group: thisGroup,
+            key: myKey,
+            interesting: 0,
+            wealth:0,
+            email: 0,
+            createdAt: new Date()});
+        
+        thisID = myPlayers.findOne({key: myKey})._id;
+        Session.set('myID',thisID);
+        Session.set('myGroup',thisGroup);
+        Session.set('groupset', true);
+    
+        Router.go('instructions');
     }
+    
+    
+    
 });
 
-Template.instructions.helpers({    
-    instructionstest : function(){
-//        console.log("first test");
-        Session.set('readinstructions',true);
-//        var temp  = session.get('readinstructions');
-//        console.log("second test");
-//        console.log("readinstructions"+temp);
-    }
+Template.instructions.helpers({
+    
+    displayEarnings:function(){
+        return Session.get('displayE');
+    },
+    displaySocial:function(){
+        return Session.get('displayS');
+    },
+    instructionstest: function(){
+    Session.set('readinstructions',true);
+    },
 });
+
 Template.instructions.events({
     
 });
@@ -94,72 +180,14 @@ Template.signup.events({
         console.log(myfield);
         var mylevel = event.target.Level.value;
         
-        var temp = myPlayers.find().fetch();
-        nPlayers = temp.length; myKey=nPlayers+1;
-        if(nPlayers===0){nPlayers=1;lastUsedGroup=4;}
-        else{lastUsedGroup = myPlayers.findOne({key:myKey-1}).group;}
-
-        //Determine whether treatment or control
+        myPlayerID = Session.get('myID');
         
-        if(lastUsedGroup === 1){
-            thisGroup = 2;
-            Session.set('ESgroup',true);
-            Session.set('Egroup',false);
-            Session.set('Sgroup',false);
-            Session.set('Cgroup',false);
-        }else if(lastUsedGroup ===2){
-            thisGroup = 3;
-            Session.set('Sgroup',true);
-            Session.set('Egroup',false);
-            Session.set('ESgroup',true);
-            Session.set('Cgroup',false);
-        }else if(lastUsedGroup===3){
-            thisGroup =4;
-            Session.set('Sgroup',false);
-            Session.set('Egroup',true);
-            Session.set('ESgroup',false);
-            Session.set('Cgroup',false);
-        }else{
-            thisGroup=1;
-            Session.set('Sgroup',false);
-            Session.set('Egroup',false);
-            Session.set('ESgroup',false);
-            Session.set('Cgroup',true);
-        }
-        Eind = Session.get('Egroup');
-        Sind = Session.get('Sgroup');
-        ESind = Session.get('ESgroup');
-        
-        if(Eind || ESind){
-            Session.set('displayE',true);
-        }
-        if(Sind || ESind){
-            Session.set('displayS',true);
-        }
-        
-        
-        console.log('groups');
-        console.log("The previously assigned group is " + lastUsedGroup);
-        console.log("The assigned group is " + thisGroup);
-        console.log("The number of players so far is: " + myKey);
-
-        // load the values into the DB
-        myPlayers.insert(
-            {
-            age: myage,
+        myPlayers.update(myPlayerID, {$set:
+            {age: myage,
             gender: mygender,
             field: myfield,
             level: mylevel,
-            group: thisGroup,
-            key: myKey,
-            interesting: 0,
-            wealth:0,
-            email: 0,
-            createdAt: new Date()});
-        //find this players ID and use it throughout the rest of the session;
-        thisID = myPlayers.findOne({key: myKey})._id;
-        Session.set('myID',thisID);
-        Session.set('myGroup',thisGroup);
+            }});
         Session.set('signedin',true);
         Router.go('index');
     }

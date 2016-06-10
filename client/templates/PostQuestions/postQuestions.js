@@ -1,34 +1,28 @@
-Session.setDefault('howwealthy',0);
-Session.setDefault('howinteresting',0);
-Session.setDefault('displayChoice',0);
+Session.setDefault('howinteresting',"4");
+Session.setDefault('howwealthy',"50");
 
 Template.post.events({
-    
-    'click #done':function(event){
-        event.preventDefault(); 
-        howinteresting = document.getElementById('interesting').value;
-        Session.set('howinteresting',howinteresting);
-        console.log("howinteresting" + howinteresting);
-        howwealthy= document.getElementById('familywealth').value;
-        Session.set('howwealthy',howwealthy);
-        console.log(howwealthy);
+    'click':function(){
+        howinteresting2 = document.getElementById('interesting').value;
+        howwealthy2= document.getElementById('familywealth').value;
+
+        Session.set('howinteresting',howinteresting2);
+        Session.set('howwealthy',howwealthy2);
+        
         thisID = Session.get('myID');
-        myPlayers.update(thisID, {$set: {interesting: howinteresting, wealth: howwealthy}});
-        Session.set('displaychoice',true);
+        myPlayers.update(thisID, {$set: {interesting: howinteresting2, wealth: howwealthy2}});
+
+        return Session.get('howinteresting');
     }
+    
 });
 Template.post.helpers({
-    howinteresting:function(){
-        Session.get('howinteresting');
+    fhowinteresting: function(){
+        return Session.get('howinteresting');
     },
-    howwealthy:function(){
-        Session.get('howwealthy');
-        
-    },
-    displaychoice:function(){
-        Session.get('displaychoice');
+    fhowwealthy:function(){
+        return Session.get('howwealthy');
     }
-         
 });
  
  Template.readmore.events({

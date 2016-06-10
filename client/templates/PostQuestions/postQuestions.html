@@ -2,17 +2,19 @@
     <body>
     <div style="padding:20px;">
         
-        <h3> Please answer these last two questions : </h3>
-        
-        <p> How interesting did you find this game on a scale of 1 to 7?</p>
-        <input id="interesting" type="range" min="1" max="7" step="1"> {{#if displaychoice}}{{howinteresting}}{{/if}}
+        <h3> Thanks so much for your time. </h3>
+        <br>
+        <p> Please answer these last two questions:</p>
+        <br>
+        <h6> How interesting did you find this game on a scale of 1 to 7?</h6>
+        <input id="interesting" type="range" min="1" max="7" step="1"> 
+        <p><small> You have selected: {{fhowinteresting}} </small></p>
         <p></p><p></p>
-        <p> Can you indicate on a scale of 1 to 100 how wealthy your parents are ? </p> {{#if displaychoice}}{{howwealthy}}{{/if}}
+        <br><br>
+        <p></p><p></p>
+        <h6> Can you indicate on a scale of 1 to 100 how wealthy your parents are ? </h6>     
         <input id="familywealth" type="range" min="1" max="100" step="1" value="50">
-        
-        <p></p><p></p>
-        <p><input id="done" type="button" value="Done"></p>
-        <p></p><p></p><p></p><p></p>
+        <p> <small> You have selected: {{fhowwealthy}}</small> </p>
         <hr>
         <p></p><p></p><p></p><p></p>
         <p>Thanks again for your time. </p>

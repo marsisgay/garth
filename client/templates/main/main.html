@@ -16,8 +16,7 @@
     {{/if}}
 
     {{#if endrounds}}
-         <p> Thanks so much for your time. You did a really good job!
-             Please answer these last two questions:</p>
+
              {{> post}}
 
     {{/if}}
@@ -82,18 +81,10 @@
             
             <tr valign="center">
             <td colspan="2" align="center" >
-                <p> ...however, not all the participants were as skilled as you... <br>
-                    Would you like to donate some coins so that another player may also proceed in the game? <br>
-            It costs 5 coins to save another player. </p>
 
-            {{#unless lastround}} This is half the amount of playing another round.
-            <p></p><p></p>
-            <p>You may save as many players as you like, even none, but you may not prevent yourself from playing the next round!</p>
-            {{/unless}}
+            <p>
+            {{#unless lastround}} You may not prevent yourself from playing the next round! {{/unless}}</p>
 
-            {{#if lastround}}
-            <p> Seeing as it is the last round your limit has been extended. </p>
-            {{/if}}
             <p></p><p></p>
             <p></p><p></p>
             <p>There are <strong>{{numPlayers}} </strong> players playing. </p>  
@@ -137,7 +128,7 @@
                     <p> You have not enough to donate, but enough to proceed. </p>
                 {{/if}}
                 
-                <p>When you are ready to proceed <input type="button" id="nextround" value="Click here"></p>
+                <p> When you are ready to proceed <input type="button" id="nextround" value="Click here"></p>
                 </td>
             </tr>    
         </table>
