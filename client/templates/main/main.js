@@ -415,7 +415,8 @@ Template.round.events({
         //console.log(Session.get('currentwordPos')); 
         e.target.myAttempt.value = '';
     }else{
-        //console.log("incorrect attempt, try again!");}
+        //console.log("incorrect attempt, try again!");
+    }
        e.target.myAttempt.value = '';
     //        //  clear form
     }
