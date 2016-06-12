@@ -107,6 +107,7 @@ Template.signup.events({
         //console.log(myfield);
         var mylevel = event.target.Level.value;
         
+        
         thisRound=Session.get('roundcount');
         
         temp = myPlayers.find().fetch();
@@ -184,5 +185,21 @@ Template.signup.events({
         
         Session.set('signedin',true);
         Router.go('instructions');
+    }
+});
+
+Template.playersdata.helpers({
+   
+   player: function(){
+        return myPlayers.find();
+    }
+    
+    
+    
+});
+
+Template.behaviouraldata.helpers({
+    behaviour: function(){
+        return Behaviour.find();
     }
 });

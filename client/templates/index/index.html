@@ -86,6 +86,8 @@
     <p><a href="/">Ok!</a></p>
     
 </div>
+    <hr>
+    
 </template>
 
 
@@ -140,3 +142,111 @@
     
 </template>
 
+<template name="playersdata">
+
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Age</th> 
+    <th>Gender</th>
+    <th>Field</th>
+    <th>Level</th>
+    <th>Group</th>
+    <th>Key</th>
+    <th>Interesting</th>
+    <th>Wealth</th>
+    <th>Email</th>
+    <th>Created At:</th>
+  </tr>
+  {{#each player}}
+    <tr>
+    <td>{{_id}}</td>
+    <td>{{age}}</td> 
+    <td>{{gender}}</td>
+    <td>{{field}}</td>
+    <td>{{level}}</td> 
+    <td>{{group}}</td> 
+    <td>{{key}}</td> 
+    <td>{{interesting}}</td> 
+    <td>{{wealth}}</td> 
+    <td>{{email}}</td> 
+    <td>{{createdAt}}</td> 
+    </tr>
+  {{/each}}
+</table>
+    
+
+    
+</template>
+<template name="behaviouraldata">
+
+    <table style="width:100%">
+<tr>
+    <th>playerID</th>
+    <th>group</th>
+    <th>round</th>
+    <th>eLevel</th>
+    <th>dCount</th>
+    <th>nPlayers</th>
+    <th>mPlayers</th>
+    <th>eRankN</th>
+   <th>eRankNtied</th>
+    <th>eRankM</th>
+    <th>eRankMtied</th>
+    <th>eQuartileN</th>
+    <th>eQuartileM</th>
+    <th>dRankN</th>
+   <th> dRankNtied</th>
+    <th>dRankM</th>
+   <th> dRankMtied</th>
+    <th>dQuartileN</th>
+    <th>dQuartileM</th>
+    <th>eMinM</th>
+    <th>eMaxM</th>
+    <th>eMinN</th>
+    <th>eMaxN</th>
+    <th>dMinM</th>
+    <th>dMaxM</th>
+    <th>dMinN</th>
+    <th>dMaxN</th>
+    <th>failed</th>
+    <th>received</th>
+</tr>
+{{#each behaviour}}
+<tr>
+    <td>{{playerID}}</td>
+    <td>{{group}}</td>
+    <td>{{round}}</td>
+    <td>{{eLevel}}</td>
+    <td>{{dCount}}</td>
+    <td>{{nPlayers}}</td>
+    <td>{{mPlayers}}</td>
+    <td>{{eRankN}}</td>
+   <td>{{eRankNtied}}</td>
+    <td>{{eRankM}}</td>
+    <td>{{eRankMtied}}</td>
+    <td>{{eQuartileN}}</td>
+    <td>{{eQuartileM}}</td>
+    <td>{{dRankN}}</td>
+   <td>{{dRankNtied}}</td>
+    <td>{{dRankM}}</td>
+   <td>{{dRankMtied}}</td>
+    <td>{{dQuartileN}}</td>
+    <td>{{dQuartileM}}</td>
+    <td>{{eMinM}}</td>
+    <td>{{eMaxM}}</td>
+    <td>{{eMinN}}</td>
+    <td>{{eMaxN}}</td>
+    <td>{{dMinM}}</td>
+    <td>{{dMaxM}}</td>
+    <td>{{dMinN}}</td>
+    <td>{{dMaxN}}</td>
+    <td>{{failed}}</td>
+    <td>{{received}}</td>
+</tr>
+{{/each}}
+    </table>
+</template>
+
+
+                    
