@@ -106,6 +106,7 @@ Template.signup.events({
         var myfield = event.target.field.value;
         //console.log(myfield);
         var mylevel = event.target.Level.value;
+        var mycountry = event.target.countries.value;
         
         
         thisRound=Session.get('roundcount');
@@ -173,6 +174,7 @@ Template.signup.events({
             gender: mygender,
             field: myfield,
             level: mylevel,
+            country: mycountry,
             group: thisGroup,
             key: myKey,
             interesting: 0,
