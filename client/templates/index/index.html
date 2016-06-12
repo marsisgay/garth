@@ -1,16 +1,22 @@
 
 <template name= "index">
 <div style="padding:20px;">
-{{#unless signedin}}
-    {{#unless readinstructions}}
+
+
+    {{#unless signedin}}
         {{> hello}}
         {{> about}}
-        <p><input type="button" id="instructions" value="Instructions"></p>
-    {{/unless}}
-{{/unless}} 
+    {{/unless}} 
 
-{{#unless gamestarted}}
     {{#if signedin}}
+    {{#unless readinstructions}}
+            <p><input type="button" id="instructions" value="Instructions"></p>
+    {{/unless}}
+    {{/if}}
+    
+    
+{{#unless gamestarted}}
+    {{#if readinstructions}}
         <h2>Ready?</h2>
         <p><input type="button" id="start" value="Go to Round One"></p>
     {{/if}}
@@ -31,16 +37,18 @@
         game to collect some data for my thesis.
    I can't give too much <br> away lest I bias your behaviour,
      but... a more detailed <br> explanation will be provided at the end.</p>
-    <p> Please read the instructions carefully!</p>
+    
+    <p> Please sign in to read the instructions.</p>
+    <p><a href="/signup">Ok!</a></p>
+    
+    
     </div>
 </template>
 
 <template name ="instructions">
    <div style="padding:20px;">
     
-
-
-   {{instructionstest}}
+       {{instructionstest}}
 
    <h2>Instructions</h2>
     
@@ -75,8 +83,7 @@
     <p></p><p></p>
     <p> Just try make it through the five rounds! </p>     
     <p> Good luck and have fun! </p> 
-    <p><a href="/signup">Ok!</a></p>
-    
+    <p><a href="/">Ok!</a></p>
     
 </div>
 </template>

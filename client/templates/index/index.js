@@ -11,7 +11,7 @@ Session.setDefault('startroundtwo',false);
 Session.setDefault('roundlength',30);
 
 //server side variables!!
-Session.setDefault('lastUsedGroup',2); //2 = Treatment. on ther server. 
+Session.setDefault('lastUsedGroup',0); //2 = Treatment. on ther server. 
 
 Session.setDefault('Egroup',false);
 Session.setDefault('ESgroup',false);
@@ -22,6 +22,7 @@ Session.set('displayE',false);
 Session.set('displayS',false);
 
 Session.setDefault('groupset',false);
+Session.setDefault('readinstructions',false);
 
 Template.index.helpers({
     
@@ -48,8 +49,8 @@ Template.index.helpers({
     },
     findPlayerID: function(){
         var currentplayerID = PlayersList.findOne()._id;
-        console.log("This is the ID:");
-        console.log(currentPlayerID);
+        //console.log("This is the ID:");
+        //console.log(currentPlayerID);
         return currentplayerID;
     },
     signedin: function(){
@@ -60,7 +61,7 @@ Template.index.helpers({
 Template.index.events({
     'click #start':function(){
         started=true;
-        console.log("enteredbutton");
+        //console.log('enteredbutton');
         Session.set('roundinplay', started);
         Session.set('gamestarted', started);
         Session.set('inround',true);
@@ -69,10 +70,49 @@ Template.index.events({
     },
     
     'click #instructions':function(){
-        //set the groups
         
-        var temp = myPlayers.find().fetch();
+        Router.go('instructions');
+    }
+    
+});
+
+Template.instructions.helpers({
+    
+    displayEarnings:function(){
+        return Session.get('displayE');
+    },
+    displaySocial:function(){
+        return Session.get('displayS');
+    },
+    instructionstest: function(){
+    Session.set('readinstructions',true);
+    }
+});
+
+Template.instructions.events({
+    
+});
+
+Template.signup.events({
+    'submit form':function(event){
+        event.preventDefault();  
+        //console.log("default prevented");
+
+        //Get particulars
+        var myage = event.target.age.value;
+        //console.log(myage);
+        var mygender = event.target.gender.value;
+        //console.log(mygender);
+        var myfield = event.target.field.value;
+        //console.log(myfield);
+        var mylevel = event.target.Level.value;
+        
+        thisRound=Session.get('roundcount');
+        
+        temp = myPlayers.find().fetch();
         nPlayers = temp.length; myKey=nPlayers+1;
+        
+        
         if(nPlayers===0){nPlayers=1;lastUsedGroup=4;}
         else{
             mytempID = myPlayers.findOne({key:myKey-1})._id;
@@ -117,78 +157,32 @@ Template.index.events({
         if(Sind || ESind){
             Session.set('displayS',true);
         }
-        
-        
-        console.log('groups');
-        console.log("The previously assigned group is " + lastUsedGroup);
-        console.log("The assigned group is " + thisGroup);
-        console.log("The number of players so far is: " + myKey);
+        //console.log('groups');
+        //console.log("The previously assigned group is " + lastUsedGroup);
+        //console.log("The assigned group is " + thisGroup);
+        //console.log("The number of players so far is: " + myKey);
 
-//         load the values into the DB
-        myPlayers.insert({
-            age:0,
-            gender: 0,
-            field: 0,
-            level: 0,
+        
+        Session.set('myGroup',thisGroup);
+        Session.set('groupset', true);
+        //console.log("we are now updating the player");
+        
+      myPlayers.insert({
+            age:myage,
+            gender: mygender,
+            field: myfield,
+            level: mylevel,
             group: thisGroup,
             key: myKey,
             interesting: 0,
             wealth:0,
             email: 0,
             createdAt: new Date()});
-        
-        thisID = myPlayers.findOne({key: myKey})._id;
+    
+        thisID = myPlayers.findOne({key:myKey})._id;
         Session.set('myID',thisID);
-        Session.set('myGroup',thisGroup);
-        Session.set('groupset', true);
-    
-        Router.go('instructions');
-    }
-    
-    
-    
-});
-
-Template.instructions.helpers({
-    
-    displayEarnings:function(){
-        return Session.get('displayE');
-    },
-    displaySocial:function(){
-        return Session.get('displayS');
-    },
-    instructionstest: function(){
-    Session.set('readinstructions',true);
-    },
-});
-
-Template.instructions.events({
-    
-});
-
-Template.signup.events({
-    'submit form':function(event){
-        event.preventDefault();  
-        console.log("default prevented");
-
-        //Get particulars
-        var myage = event.target.age.value;
-        console.log(myage);
-        var mygender = event.target.gender.value;
-        console.log(mygender);
-        var myfield = event.target.field.value;
-        console.log(myfield);
-        var mylevel = event.target.Level.value;
         
-        myPlayerID = Session.get('myID');
-        
-        myPlayers.update(myPlayerID, {$set:
-            {age: myage,
-            gender: mygender,
-            field: myfield,
-            level: mylevel,
-            }});
         Session.set('signedin',true);
-        Router.go('index');
+        Router.go('instructions');
     }
 });

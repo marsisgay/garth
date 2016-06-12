@@ -7,7 +7,6 @@
     
     {{#if betweenround}}
         {{#unless checked}}{{checkup}}{{/unless}}
-
         {{#if passed}} <!-- check they have enough earnings to continue-->
             {{> donate}} <!-- display the ranks according to group in this screen --> 
         {{else}}
@@ -83,7 +82,7 @@
             <td colspan="2" align="center" >
 
             <p>
-            {{#unless lastround}} You may not prevent yourself from playing the next round! {{/unless}}</p>
+            {{#unless lastround}} Remember: You may not prevent yourself from playing the next round! {{/unless}}</p>
 
             <p></p><p></p>
             <p></p><p></p>
@@ -142,8 +141,6 @@
  <p>That was the last round! Thank you for your time!</p>
  <p>Please answer these last two questions: </p>
  {{> post}}
- <p>You can read more about the experiment here. </p>
-    <a href="/readmore">Read More</a>
  {{/if}}
     
  
@@ -160,10 +157,9 @@
             When you are ready for the next round <input type="button" id="nextroundR" value="Click here"></p>
         {{/if}}
         {{#unless donationavailable}}
-        <h4>Bad luck!</h4>  <p> Nobody has donated you a round..you are not able to continue playing. 
-            Thanks so much for your time, though!
-            You can read more about the experiment here. </p>
-            <a href="/readmore">Read More</a>
+        <h4>Bad luck!</h4>  
+        <p> Nobody has donated you a round..you are not able to continue playing. </p>
+            {{> post}}
         {{/unless}}
     {{/unless}}
 {{/unless}}

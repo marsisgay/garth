@@ -31,7 +31,7 @@ Template.post.helpers({
         event.preventDefault();  
         email=event.target.Email.value;
         thisID = Session.get('myID');
-        console.log("email: " + email);
+        ////console.log("email: " + email);
         myPlayers.update(thisID, {$set: {email: email}});
     }
     
