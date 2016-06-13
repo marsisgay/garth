@@ -783,6 +783,7 @@ Template.donate.events({
         //console.log("you clicked a button to go the next round");
         thisRound = Session.get('roundcount');
         
+        if(thisRound<5){
         //decrease earnings by cost
         thisID = Session.get('myID');
         myPlayerID = Behaviour.findOne({playerID:thisID,round:thisRound})._id;
@@ -790,6 +791,7 @@ Template.donate.events({
         cost = Session.get('costtoplay');
         tempE = tempE-cost;
         Behaviour.update(myPlayerID,{$set:{eLevel:tempE}});
+        }
         
         thisRound = thisRound +1;
         Session.set('roundcount',thisRound);

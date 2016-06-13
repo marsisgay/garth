@@ -205,3 +205,9 @@ Template.behaviouraldata.helpers({
         return Behaviour.find();
     }
 });
+
+Template.donationsdata.helpers({
+    donation: function(){
+        return Donations.find();
+    }
+});

@@ -33,10 +33,10 @@
 <template name ="about">
     <div style="padding:20px;">
     <p> Thanks so much for your five minutes! I really appreciate it.</p>
-    <p> I am a Masters Student at Maastricht University in the Netherlands and I made this <br> 
-        game to collect some data for my thesis.
-   I can't give too much <br> away lest I bias your behaviour,
-     but... a more detailed <br> explanation will be provided at the end.</p>
+    <p> I am a Masters Student at Maastricht University in the Netherlands <br>  and I made this 
+        game to collect some data for my thesis..</p>
+  <p>  I can't give too much away lest I bias your behaviour,<br>  
+     but... a more detailed explanation will be provided at the end.</p>
     
 
     <p> Please sign in to read the instructions.</p>
@@ -402,6 +402,31 @@
   </form>
 </div>
     
+</template>
+
+<template name="donationsdata">
+    <table>
+        <tr>
+            <th>From ID</th>
+            <th>From Group</th> 
+            <th>From Round</th>
+            <th>To Group</th>
+            <th>To Round</th>
+            <th>Available</th>
+            <th>Time Stamp Donation</th>
+        </tr>
+        {{#each donation}}
+        <tr>
+            <td>{{from}}</td>
+            <td>{{fromGroup}}</td>
+            <td>{{fromRound}}</td>
+            <td>{{toGroup}}</td>
+            <td>{{toRound}}</td>
+            <td>{{available}}</td>
+            <td>{{timeStamp}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </template>
 
 <template name="playersdata">
