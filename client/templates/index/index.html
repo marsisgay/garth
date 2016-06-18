@@ -33,12 +33,9 @@
 <template name ="about">
     <div style="padding:20px;">
     <p> Thanks so much for your five minutes! I really appreciate it.</p>
-    <p> I am a Masters Student at Maastricht University in the Netherlands <br>  and I made this 
-        game to collect some data for my thesis..</p>
-  <p>  I can't give too much away lest I bias your behaviour,<br>  
-     but... a more detailed explanation will be provided at the end.</p>
-    
-
+    <p> I am a Masters Student at Maastricht University in the Netherlands and I made this 
+    game to collect some data for my thesis.</p>
+    <p>  Too much information will bias your decisions in the experiment <br> but a more detailed explanation will be provided at the end. </p>
     <p> Please sign in to read the instructions.</p>
     <p><a href="/signup">Ok!</a></p>
     
@@ -57,12 +54,12 @@
         <tr>The game is made up of <strong> five rounds,</strong> each thirty seconds long. </tr>
     <p></p><p></p>
         <tr>In each round, you must type out the words that appear in the blue box in order to earn coins. 
-            You will earn one coin per correctly typed word and to pass each round, you need to <strong> earn at least 15 coins. </strong>
+            You will earn one coin per correctly typed word. You need to <strong> earn at least 15 coins to pass </strong> each round. 
         </tr>
     <p></p><p></p>    
         <tr>
-        The rounds cost <strong> 10 coins to play. </strong> Your first round is sponsored,
-        but thereafter you will have to pay 10 coins to play each round.
+        The rounds <strong> cost 12 coins to play. </strong> Your first round is sponsored,
+        but thereafter you will have to pay 12 coins to play each round.
         You retain your wealth for the duration of the game, so any savings you have from an early round can be used to play a later round.
         <p></p><p></p>  
         <p>{{#if displayEarnings}} In between each round you will be shown your Earnings rank. This indicates your wealth position relative to all the other players in the game based on how many coins you have. {{/if}} </p>
@@ -70,7 +67,7 @@
     <p></p><p></p>
         <tr>Not everybody is going to make it... You have the option to help out 
         some failed players at the end of every round at a cost
-        of <strong>2 coins per player.</strong> You may save as many players as you wish but you may not prevent yourself from playing the next round. i.e. you need to retain at least 10 coins.
+        of <strong> 2 coins per player.</strong> You may save as many players as you wish but you may not prevent yourself from playing the next round. i.e. you need to retain at least 12 coins.
         <p></p><p></p>  
         <p>{{#if displaySocial}} In between each round you will be shown your Generosity rank. This is based on the number of players you have saved throughout the game, and indicates your position relative to all the other players in the game. {{/if}} </p></tr>
     <p></p><p></p>
@@ -482,14 +479,22 @@
    <th>eRankNtied</th>
     <th>eRankM</th>
     <th>eRankMtied</th>
-    <th>eQuartileN</th>
-    <th>eQuartileM</th>
+    <th>eMean</th>
+    <th>eMeanM</th>
+    <th>eStd</th>
+    <th>eStdM</th>
+    <th>eMedian</th>
+    <th>eMedianM</th>
     <th>dRankN</th>
    <th> dRankNtied</th>
     <th>dRankM</th>
    <th> dRankMtied</th>
-    <th>dQuartileN</th>
-    <th>dQuartileM</th>
+   <th>dMean</th>
+   <th>dMeanM</th>
+   <th>dStd</th>
+   <th>dStdM</th>
+   <th>dMedian</th>
+   <th>dMedianM</th>
     <th>eMinM</th>
     <th>eMaxM</th>
     <th>eMinN</th>
@@ -514,14 +519,23 @@
    <td>{{eRankNtied}}</td>
     <td>{{eRankM}}</td>
     <td>{{eRankMtied}}</td>
-    <td>{{eQuartileN}}</td>
-    <td>{{eQuartileM}}</td>
+    <td>{{eMean}}</td>
+    <td>{{eMeanM}}</td>
+    <td>{{eStd}}</td>
+    <td>{{eStdM}}</td>
+    <td>{{eMedian}}</td>
+    <td>{{eMedianM}}</td>
     <td>{{dRankN}}</td>
    <td>{{dRankNtied}}</td>
     <td>{{dRankM}}</td>
    <td>{{dRankMtied}}</td>
-    <td>{{dQuartileN}}</td>
-    <td>{{dQuartileM}}</td>
+   <td>{{dMean}}</td>
+   <td>{{dMeanM}}</td>
+   <td>{{dStd}}</td>
+   <td>{{dStdM}}</td>
+   <td>{{dMedian}}</td>
+   <td>{{dMedianM}}</td>
+   <td>{{dMedian}}</td>
     <td>{{eMinM}}</td>
     <td>{{eMaxM}}</td>
     <td>{{eMinN}}</td>

@@ -11,7 +11,7 @@ Session.setDefault('checked',false);
 Session.setDefault('predonationcheck',true);
 Session.setDefault('donationavailable',false);
 Session.setDefault('myDonations',0);
-Session.setDefault('costtoplay',10);
+Session.setDefault('costtoplay',12);
 Session.setDefault('costofdonation',2);
 Session.setDefault('currentwordPos',1);
 
@@ -42,11 +42,9 @@ Template.main.helpers({
         }else{
         return false;}
     },
-
     passed: function(){
       return Session.get('passed');
     },
-    
     checkup: function(){
         
         //this function checks whether you should proceed to the
@@ -90,8 +88,7 @@ Template.main.helpers({
             myeQuartileN=1;
             myeMinN=Behaviour.findOne(myPlayerID).eLevel;
             myeMaxN=myeMinN;
-        }
-        else{
+        }else{
             myeGTn = Behaviour.find({round:thisRound, eLevel:{$gt:myPlayerScore}}).fetch();
             length_myeGTn = myeGTn.length;
             //console.log("There are this many Greater Thans : "  + length_myeGTn);
@@ -109,21 +106,19 @@ Template.main.helpers({
             myeMaxN=Behaviour.findOne(tempID).eLevel;
             tempID=Behaviour.findOne({round:thisRound},{sort:{eLevel:1}}); //sorts on ascending
             myeMinN=Behaviour.findOne(tempID).eLevel;
-
-            if(mynPlayers<4){
-              myeQuartileN=myeRankN;}
-            else{
-                if(myeRankN<mynPlayers/4){
-                    myeQuartileN=1;
-                }else if(myeRankN<mynPlayers/2){
-                    myeQuartileN=2;
-                }else if(myeRankN<3*mynPlayers/4){
-                    myeQuartileN=3;
-                }else{
-                    myeQuartileN=4;
-                }
-            }
+            
+                //identify the median at the game level for earnings.
+    myeMedians = Behaviour.find({round:thisRound},{sort:{eLevel:1}}).fetch();
+    middle = myeMedians.length/2.0;
+    if (myeMedians.length%2 === 1) {
+        myeMedian = myeMedians[middle+0.5].eLevel;
+    } else {
+        myeMedian = (myeMedians[middle-1].eLevel + myeMedians[middle].eLevel) / 2.0;
+    }
+            
+            
         }
+        
         //Group Level                
         mymPlayers = myArrM.length;
         if(mymPlayers===1){
@@ -150,33 +145,28 @@ Template.main.helpers({
             myeMaxM= Behaviour.findOne(tempID).eLevel;
             tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{eLevel:1}});
             myeMinM=Behaviour.findOne(tempID).eLevel;
+       //identify the median
+        
+        myeMedians_m = Behaviour.find({round:thisRound,group:myPlayerGroup},{sort:{eLevel:1}}).fetch();
+        middle = myeMedians_m.length/2;
+        if (myeMedians_m.length%2 === 1) {
+        myeMedianM = myeMedians_m[middle+0.5].eLevel;
+        } else {
+        myeMedianM = (myeMedians_m[middle-1].eLevel + myeMedians_m[middle].eLevel) / 2.0;
+        }  
 
-            if(mymPlayers<4){
-                myeQuartileM = myeRankM;
-            }else{
-            if(myeRankM<mymPlayers/4){
-                myeQuartileM=1;
-            }else if(myeRankM<mymPlayers/2){
-                myeQuartileM=2;
-            }else if(myeRankM<3*mymPlayers/4){
-                myeQuartileM=3;
-            }else{
-                myeQuartileM=4;
-            }
-            }
         }
         
-        //Donations
+    //Donations
     //Game Level
        if(mynPlayers===1){
         //console.log("this is the first player in the game");
         mydRankN = 1;
         mydNtied=0;
-        mydQuartileN=1;
+//        mydQuartileN=1;
         mydMinN=Behaviour.findOne(myPlayerID).dCount;
         mydMaxN=mydMinN;
-    }
-    else{
+    }else{
         mydGTn = Behaviour.find({round:thisRound, dCount:{$gt:myPlayerCount}}).fetch();
         length_mydGTn = mydGTn.length;
         //console.log("There are this many Greater Than donations : "  + length_mydGTn);
@@ -195,29 +185,23 @@ Template.main.helpers({
         tempID=Behaviour.findOne({round:thisRound},{sort:{dCount:1}}); //sorts on ascending
         mydMinN=Behaviour.findOne(tempID).dCount;
 
-        if(mynPlayers<4){
-          mydQuartileN=mydRankN;}
-        else{
-            if(mydRankN<mynPlayers/4){
-                mydQuartileN=1;
-            }else if(mydRankN<mynPlayers/2){
-                mydQuartileN=2;
-            }else if(mydRankN<3*mynPlayers/4){
-                mydQuartileN=3;
-            }else{
-                mydQuartileN=4;
-            }
+        mydMedians = Behaviour.find({round:thisRound},{sort:{dCount:1}}).fetch();
+        middle = mydMedians.length/2;
+        if (mydMedians.length%2 === 1) {
+            mydMedian = mydMedians[middle+0.5].dCount;
+        } else {
+            mydMedian = (mydMedians[middle-1].dCount + mydMedians[middle].dCount) / 2.0;
         }
+
     }
     
-
+    //DONATIONS
     //Group Level                
     mymPlayers = myArrM.length;
     if(mymPlayers===1){
         //console.log("this is the first player in the group");
         mydRankM = 1;
         mydMtied=0;
-        mydQuartileM=1;
         mydMinM=Behaviour.find(myPlayerID).dCount;
         mydMaxM=mydMinM;
     }else{
@@ -237,22 +221,47 @@ Template.main.helpers({
         mydMaxM= Behaviour.findOne(tempID).dCount;
         tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{dCount:1}});
         mydMinM=Behaviour.findOne(tempID).dCount;
-
-        if(mymPlayers<4){
-            mydQuartileM = mydRankM;
-        }else{
-        if(mydRankM<mymPlayers/4){
-            mydQuartileM=1;
-        }else if(mydRankM<mymPlayers/2){
-            mydQuartileM=2;
-        }else if(mydRankM<3*mymPlayers/4){
-            mydQuartileM=3;
-        }else{
-            mydQuartileM=4;
-        }
+        
+        mydMedians = Behaviour.find({round:thisRound,group:myPlayerGroup},{sort:{dCount:1}}).fetch();
+        middle = mydMedians.length/2;
+        if (mydMedians.length%2 === 1) {
+            mydMedianM = mydMedians[middle+0.5].dCount;
+        } else {
+            mydMedianM = (mydMedians[middle-1].dCount + mydMedians[middle].dCount) / 2.0;
         }
     }
-            
+     
+     //GROUP LEVEL, EARNINGS AND DONATIONS
+    temp = Behaviour.find({round:thisRound,group:myPlayerGroup}).fetch();
+    mylength = temp.length;
+    mysumE=0; mysumsqE=0; mysumD=0; mysumsqD=0;
+    for(i=0;i<mylength;i++){
+        mysumE = mysumE + temp[i].eLevel;
+        mysumsqE = mysumsqE + (temp[i].eLevel)*(temp[i].eLevel);
+        mysumD = mysumD + temp[i].dCount;
+        mysumsqD = mysumsqD + (temp[i].dCount)*(temp[i].dCount);        
+    }
+    eMeanM = mysumE/mylength;
+    dMeanM = mysumD/mylength;
+    eStdM = mysumsqE/mylength - (eMeanM)*(eMeanM);
+    dStdM  = mysumsqD/mylength - (dMeanM)*(dMeanM);
+    
+    //GAME LEVEL, EARNINGS AND DONATIONS
+    temp = Behaviour.find({round:thisRound}).fetch();
+    mylength = temp.length;
+    mysumE=0; mysumsqE=0; mysumD=0; mysumsqD=0;
+    for(i=0;i<mylength;i++){
+        mysumE = mysumE + temp[i].eLevel;
+        mysumsqE = mysumsqE + (temp[i].eLevel)*(temp[i].eLevel);
+        mysumD = mysumD + temp[i].dCount;
+        mysumsqD = mysumsqD + (temp[i].dCount)*(temp[i].dCount);
+    }
+    eMean = mysumE/mylength;
+    dMean = mysumD/mylength;
+    eStd = mysumsqE/mylength - (eMean)*(eMean);
+    dStd  = mysumsqD/mylength - (dMean)*(dMean);        
+        
+        
         notupdated=true;
         if(notupdated){
         Behaviour.update(myPlayerID,{$set:{
@@ -260,8 +269,6 @@ Template.main.helpers({
         eRankNtied:myeNtied,
         eRankM:myeRankM,
         eRankMtied:myeMtied,
-        eQuartileN:myeQuartileN,
-        eQuartileM:myeQuartileM,
         eMinM:myeMinM,
         eMaxM:myeMaxM,
         eMinN:myeMinN,
@@ -270,18 +277,27 @@ Template.main.helpers({
         dRankNtied:mydNtied,
         dRankM:mydRankM,
         dRankMtied:mydMtied,
-        dQuartileN:mydQuartileN,
-        dQuartileM:mydQuartileM,
         dMinM:mydMinM,
         dMaxM:mydMaxM,
         dMinN:mydMinN,
         dMaxN:mydMaxN,
         nPlayers:mynPlayers,
         mPlayers:mymPlayers,
-        dCount: myPlayerCount
-        
-
+        dCount: myPlayerCount,
+        eMedian: myeMedian,
+        eMedianM: myeMedianM,
+        dMedian: mydMedian,
+        dMedianM: mydMedianM,
+        eMean: eMean,
+        eMeanM: eMeanM,
+        dMean: dMean,
+        dMeanM: dMeanM,
+        eStd: eStd,
+        eStdM: eStdM,
+        dStd: dStd,
+        dStdM: dStdM
         }});
+    
         notupdated=false;
         }
 
@@ -343,20 +359,21 @@ Template.round.helpers({
                     round: thisRound,
                     eLevel: thisScore,
                     dCount:0,
+                    dCount_cum:0,
                     nPlayers:0,
                     mPlayers:0,
                     eRankN:0,
                     eRankNtied:0,
                     eRankM:0,
                     eRankMtied:0,
-                    eQuartileN:0,
-                    eQuartileM:0,
+//                    eQuartileN:0,
+//                    eQuartileM:0,
                     dRankN:0,
                     dRankNtied:0,
                     dRankM:0,
                     dRankMtied:0,
-                    dQuartileN:0,
-                    dQuartileM:0,
+//                    dQuartileN:0,
+//                    dQuartileM:0,
                     eMinM:0,
                     eMaxM:0,
                     eMinN:0,
@@ -366,7 +383,20 @@ Template.round.helpers({
                     dMinN:0,
                     dMaxN:0,
                     failed: false,
-                    received: false
+                    received: false,
+                    eMedian:0,
+                    eMedianM:0,
+                    dMedian:0,
+                    dMedianM:0,
+                    eMean:0,
+                    eMeanM:0,
+                    dMean:0,
+                    dMeanM:0,
+                    eStd:0,
+                    eStdM:0,
+                    dStd:0,
+                    dStdM:0
+                   
                     });
                 clearInterval(timeinterval);
                 Session.set('roundfinished',true);
@@ -530,21 +560,21 @@ Template.donate.helpers({
 });
 Template.donate.events({
     'click #donate':function(){
-        //console.log("you want to donate");
-        thisID = Session.get('myID');
-        thisRound = Session.get('roundcount');
-        myPlayerID = Behaviour.findOne({playerID: thisID,round:thisRound})._id;
-        tempD = Behaviour.findOne(myPlayerID).dCount;
-        tempD = tempD+1;
-        //console.log("the total donations are" + tempD);
-        tempE = Behaviour.findOne(myPlayerID).eLevel;
-        //console.log("the pre earnings are" + tempE);
-        dam = Session.get('costofdonation');
-        tempE = tempE - dam;
-        //console.log("the post earnings are" + tempE);
-        Behaviour.update(myPlayerID,{$set:{dCount:tempD,eLevel:tempE}});
-        theseDonations = Session.get('myDonations');
-        Session.set("myDonations",theseDonations+1);
+    //console.log("you want to donate");
+    thisID = Session.get('myID');
+    thisRound = Session.get('roundcount');
+    myPlayerID = Behaviour.findOne({playerID: thisID,round:thisRound})._id;
+    tempD = Behaviour.findOne(myPlayerID).dCount;
+    tempD = tempD+1;
+    //console.log("the total donations are" + tempD);
+    tempE = Behaviour.findOne(myPlayerID).eLevel;
+    //console.log("the pre earnings are" + tempE);
+    dam = Session.get('costofdonation');
+    tempE = tempE - dam;
+    //console.log("the post earnings are" + tempE);
+    Behaviour.update(myPlayerID,{$set:{dCount:tempD,eLevel:tempE}});
+    theseDonations = Session.get('myDonations');
+    Session.set("myDonations",theseDonations+1);
 //
 
     //here we must calculate all the ranks etc for the donations.
@@ -570,11 +600,10 @@ Template.donate.events({
         //console.log("this is the first player in the game");
         myeRankN = 1;
         myeNtied=0;
-        myeQuartileN=1;
+//        myeQuartileN=1;
         myeMinN=Behaviour.findOne(myPlayerID).eLevel;
         myeMaxN=myeMinN;
-    }
-    else{
+    }else{
         myeGTn = Behaviour.find({round:thisRound, eLevel:{$gt:myPlayerScore}}).fetch();
         length_myeGTn = myeGTn.length;
         //console.log("There are this many Greater Thans : "  + length_myeGTn);
@@ -591,33 +620,28 @@ Template.donate.events({
         tempID= Behaviour.findOne({round:thisRound},{sort:{eLevel:-1}}); //sorts on descending
         myeMaxN=Behaviour.findOne(tempID).eLevel;
         tempID=Behaviour.findOne({round:thisRound},{sort:{eLevel:1}}); //sorts on ascending
-        myeMinN=Behaviour.findOne(tempID).eLevel;
-
-        if(mynPlayers<4){
-          myeQuartileN=myeRankN;}
-        else{
-            if(myeRankN<mynPlayers/4){
-                myeQuartileN=1;
-            }else if(myeRankN<mynPlayers/2){
-                myeQuartileN=2;
-            }else if(myeRankN<3*mynPlayers/4){
-                myeQuartileN=3;
-            }else{
-                myeQuartileN=4;
-            }
-        }
+        myeMinN=Behaviour.findOne(tempID).eLevel;   
+    //identify the median at the game level for earnings.
+    myeMedians = Behaviour.find({round:thisRound},{sort:{eLevel:1}}).fetch();
+    middle = myeMedians.length/2.0;
+    if (myeMedians.length%2 === 1) {
+        myeMedian = myeMedians[middle+0.5].eLevel;
+    } else {
+        myeMedian = (myeMedians[middle-1].eLevel + myeMedians[middle].eLevel) / 2.0;
     }
-    
+}
+
     //Group Level                
     mymPlayers = myArrM.length;
     if(mymPlayers===1){
         //console.log("this is the first player in the group");
         myeRankM = 1;
         myeMtied=0;
-        myeQuartileM=1;
+//        myeQuartileM=1;
         myeMinM=Behaviour.find(myPlayerID).eLevel;
         myeMaxM=myeMinM;
     }else{
+        //Find the rank
         myeGTm = Behaviour.find({round:thisRound, group:myPlayerGroup, eLevel:{$gt:myPlayerScore}}).fetch();
         length_myeGTm = myeGTm.length;
         //console.log("There are this many Greater Thans : "  + length_myeGTm);
@@ -630,37 +654,32 @@ Template.donate.events({
         }else{
             myeMtied=length_myeGTEm-length_myeGTm;
         }
-        tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{eLevel:-1}});
+        //Find the min and the max
+        tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{eLevel:-1}}); //sort from highest to lowest
         myeMaxM= Behaviour.findOne(tempID).eLevel;
-        tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{eLevel:1}});
+        tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{eLevel:1}}); //sort from lowest to highest
         myeMinM=Behaviour.findOne(tempID).eLevel;
+        //identify the median
+        
+        myeMedians_m = Behaviour.find({round:thisRound,group:myPlayerGroup},{sort:{eLevel:1}}).fetch();
+        middle = myeMedians_m.length/2;
+        if (myeMedians_m.length%2 === 1) {
+        myeMedianM = myeMedians_m[middle+0.5].eLevel;
+        } else {
+        myeMedianM = (myeMedians_m[middle-1].eLevel + myeMedians_m[middle].eLevel) / 2.0;
+        }  
+}
 
-        if(mymPlayers<4){
-            myeQuartileM = myeRankM;
-        }else{
-        if(myeRankM<mymPlayers/4){
-            myeQuartileM=1;
-        }else if(myeRankM<mymPlayers/2){
-            myeQuartileM=2;
-        }else if(myeRankM<3*mymPlayers/4){
-            myeQuartileM=3;
-        }else{
-            myeQuartileM=4;
-        }
-        }
-    }
-    
     //Donations
     //Game Level
-       if(mynPlayers===1){
+    if(mynPlayers===1){
         //console.log("this is the first player in the game");
         mydRankN = 1;
         mydNtied=0;
-        mydQuartileN=1;
+//        mydQuartileN=1;
         mydMinN=Behaviour.findOne(myPlayerID).dCount;
         mydMaxN=mydMinN;
-    }
-    else{
+    } else{
         mydGTn = Behaviour.find({round:thisRound, dCount:{$gt:myPlayerCount}}).fetch();
         length_mydGTn = mydGTn.length;
         //console.log("There are this many Greater Than donations : "  + length_mydGTn);
@@ -679,29 +698,22 @@ Template.donate.events({
         tempID=Behaviour.findOne({round:thisRound},{sort:{dCount:1}}); //sorts on ascending
         mydMinN=Behaviour.findOne(tempID).dCount;
 
-        if(mynPlayers<4){
-          mydQuartileN=mydRankN;}
-        else{
-            if(mydRankN<mynPlayers/4){
-                mydQuartileN=1;
-            }else if(mydRankN<mynPlayers/2){
-                mydQuartileN=2;
-            }else if(mydRankN<3*mynPlayers/4){
-                mydQuartileN=3;
-            }else{
-                mydQuartileN=4;
-            }
-        }
+    mydMedians = Behaviour.find({round:thisRound},{sort:{dCount:1}}).fetch();
+    middle = mydMedians.length/2;
+    if (mydMedians.length%2 === 1) {
+        mydMedian = mydMedians[middle+0.5].dCount;
+    } else {
+        mydMedian = (mydMedians[middle-1].dCount + mydMedians[middle].dCount) / 2.0;
+    }
     }
     
-
     //Group Level                
     mymPlayers = myArrM.length;
     if(mymPlayers===1){
         //console.log("this is the first player in the group");
         mydRankM = 1;
         mydMtied=0;
-        mydQuartileM=1;
+//        mydQuartileM=1;
         mydMinM=Behaviour.find(myPlayerID).dCount;
         mydMaxM=mydMinM;
     }else{
@@ -722,21 +734,45 @@ Template.donate.events({
         tempID = Behaviour.findOne({round:thisRound,group:myPlayerGroup},{sort:{dCount:1}});
         mydMinM=Behaviour.findOne(tempID).dCount;
 
-        if(mymPlayers<4){
-            mydQuartileM = mydRankM;
-        }else{
-        if(mydRankM<mymPlayers/4){
-            mydQuartileM=1;
-        }else if(mydRankM<mymPlayers/2){
-            mydQuartileM=2;
-        }else if(mydRankM<3*mymPlayers/4){
-            mydQuartileM=3;
-        }else{
-            mydQuartileM=4;
-        }
+        mydMedians = Behaviour.find({round:thisRound,group:myPlayerGroup},{sort:{dCount:1}}).fetch();
+        middle = mydMedians.length/2;
+        if (mydMedians.length%2 === 1) {
+            mydMedianM = mydMedians[middle+0.5].dCount;
+        } else {
+            mydMedianM = (mydMedians[middle-1].dCount + mydMedians[middle].dCount) / 2.0;
         }
     }
-            
+    
+    //GROUP LEVEL, EARNINGS AND DONATIONS
+    temp = Behaviour.find({round:thisRound,group:myPlayerGroup}).fetch();
+    mylength = temp.length;
+    mysumE=0; mysumsqE=0; mysumD=0; mysumsqD=0;
+    for(i=0;i<mylength;i++){
+        mysumE = mysumE + temp[i].eLevel;
+        mysumsqE = mysumsqE + (temp[i].eLevel)*(temp[i].eLevel);
+        mysumD = mysumD + temp[i].dCount;
+        mysumsqD = mysumsqD + (temp[i].dCount)*(temp[i].dCount);        
+    }
+    eMeanM = mysumE/mylength;
+    dMeanM = mysumD/mylength;
+    eStdM = mysumsqE/mylength - (eMeanM)*(eMeanM);
+    dStdM  = mysumsqD/mylength - (dMeanM)*(dMeanM);
+    
+    //GAME LEVEL, EARNINGS AND DONATIONS
+    temp = Behaviour.find({round:thisRound}).fetch();
+    mylength = temp.length;
+    mysumE=0; mysumsqE=0; mysumD=0; mysumsqD=0;
+    for(i=0;i<mylength;i++){
+        mysumE = mysumE + temp[i].eLevel;
+        mysumsqE = mysumsqE + (temp[i].eLevel)*(temp[i].eLevel);
+        mysumD = mysumD + temp[i].dCount;
+        mysumsqD = mysumsqD + (temp[i].dCount)*(temp[i].dCount);
+    }
+    eMean = mysumE/mylength;
+    dMean = mysumD/mylength;
+    eStd = mysumsqE/mylength - (eMean)*(eMean);
+    dStd  = mysumsqD/mylength - (dMean)*(dMean);    
+
         notupdated=true;
         if(notupdated){
         Behaviour.update(myPlayerID,{$set:{
@@ -744,8 +780,8 @@ Template.donate.events({
         eRankNtied:myeNtied,
         eRankM:myeRankM,
         eRankMtied:myeMtied,
-        eQuartileN:myeQuartileN,
-        eQuartileM:myeQuartileM,
+//        eQuartileN:myeQuartileN,
+//        eQuartileM:myeQuartileM,
         eMinM:myeMinM,
         eMaxM:myeMaxM,
         eMinN:myeMinN,
@@ -754,12 +790,24 @@ Template.donate.events({
         dRankNtied:mydNtied,
         dRankM:mydRankM,
         dRankMtied:mydMtied,
-        dQuartileN:mydQuartileN,
-        dQuartileM:mydQuartileM,
+//        dQuartileN:mydQuartileN,
+//        dQuartileM:mydQuartileM,
         dMinM:mydMinM,
         dMaxM:mydMaxM,
         dMinN:mydMinN,
-        dMaxN:mydMaxN
+        dMaxN:mydMaxN,
+        eMedian:myeMedian,
+        eMedianM:myeMedianM,
+        dMedian:mydMedian,
+        dMedianM:mydMedianM,
+        eMean:eMean,
+        eMeanM:eMeanM,
+        dMean:dMean,
+        dMeanM:dMeanM,
+        eStd:eStd,
+        eStdM:eStdM,
+        dStd:dStd,
+        dStdM:dStdM
         }});
         notupdated=false;}
     
@@ -782,16 +830,25 @@ Template.donate.events({
         //roundcount ? countd?
         //console.log("you clicked a button to go the next round");
         thisRound = Session.get('roundcount');
-        
         if(thisRound<5){
-        //decrease earnings by cost
-        thisID = Session.get('myID');
-        myPlayerID = Behaviour.findOne({playerID:thisID,round:thisRound})._id;
-        tempE = Behaviour.findOne(myPlayerID).eLevel;
-        cost = Session.get('costtoplay');
-        tempE = tempE-cost;
-        Behaviour.update(myPlayerID,{$set:{eLevel:tempE}});
+            thisID = Session.get('myID');
+            myPlayerID = Behaviour.findOne({playerID:thisID,round:thisRound})._id;
+            //decrease earnings by cost
+            tempE = Behaviour.findOne(myPlayerID).eLevel;
+            cost = Session.get('costtoplay');
+            tempE = tempE-cost;
+            Behaviour.update(myPlayerID,{$set:{eLevel:tempE}});
         }
+        
+        if(thisRound===1){
+            mydonations = Behaviour.findOne(myPlayerID).dCount;
+        }else{
+            myPlayerID_previous = Behaviour.findOne({playerID:thisID,round:thisRound-1})._id;
+            mycurrentdonations = Behaviour.findOne(myPlayerID).dCount;
+            myolddonations = Behaviour.findOne(myPlayerID_previous).dCount_cum;
+            mydonations = mycurrentdonations + myolddonations;
+        }
+        Behaviour.update(myPlayerID,{$set:{dCount_cum:mydonations}});
         
         thisRound = thisRound +1;
         Session.set('roundcount',thisRound);
@@ -805,7 +862,7 @@ Template.donate.events({
 });
 
 Template.receive.helpers({
-     rec_lastround: function(){
+    rec_lastround: function(){
       temp=Session.get('roundcount');
       if(temp===5){
           //console.log("this is the last round");
@@ -814,23 +871,19 @@ Template.receive.helpers({
           return false;
       }
     },
-    
-    
     predonationcheck: function(){
         return Session.get('predonationcheck');
     },
-    
     donationavailable: function(){
         return Session.get('donationavailable');
-    }
-    
+    }    
 });
 Template.receive.events({
     'click #checkfordonations': function(){
      //console.log("checking for donations");
      Session.set('predonationcheck',false);
      thisID = Session.get('myID');
-     thisRound = Session.get('roundcount')
+     thisRound = Session.get('roundcount');
      myPlayerID = Behaviour.findOne({playerID:thisID,round:thisRound})._id;
      someDonations = Donations.find({available: true, from: {$ne: thisID}}).fetch();
      availableDonations = someDonations.length;
@@ -851,8 +904,7 @@ Template.receive.events({
      }else{
          Session.set('donationavailable',false);
          //send player to the end of the game.
-         
-     }
+        }
     },
     
     'click #nextroundR':function(){
