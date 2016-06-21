@@ -35,7 +35,7 @@
     <p> Thanks so much for your five minutes! I really appreciate it.</p>
     <p> I am a Masters Student at Maastricht University in the Netherlands and I made this 
     game to collect some data for my thesis.</p>
-    <p>  Too much information will bias your decisions in the experiment <br> but a more detailed explanation will be provided at the end. </p>
+    <p>  Too much information will bias your decisions in the experiment but a more detailed explanation will be provided at the end. </p>
     <p> Please sign in to read the instructions.</p>
     <p><a href="/signup">Ok!</a></p>
     
@@ -120,7 +120,6 @@
           <option value="Germany">Germany</option>
           
           <option value="Afghanistan">Afghanistan</option>
-<option value="Åland Islands">Åland Islands</option>
 <option value="Albania">Albania</option>
 <option value="Algeria">Algeria</option>
 <option value="American Samoa">American Samoa</option>
@@ -471,38 +470,24 @@
     <th>playerID</th>
     <th>group</th>
     <th>round</th>
-    <th>eLevel</th>
     <th>dCount</th>
+    <th>currentdCount</th>
+    
+    <th>eStart</th>
+    <th>eRound</th>
+    <th>eLevel</th>
+    
     <th>nPlayers</th>
-    <th>mPlayers</th>
-    <th>eRankN</th>
+    <th>eRankStart</th>
+    <th>eRankEnd</th>
    <th>eRankNtied</th>
-    <th>eRankM</th>
-    <th>eRankMtied</th>
-    <th>eMean</th>
-    <th>eMeanM</th>
-    <th>eStd</th>
-    <th>eStdM</th>
-    <th>eMedian</th>
-    <th>eMedianM</th>
-    <th>dRankN</th>
-   <th> dRankNtied</th>
-    <th>dRankM</th>
-   <th> dRankMtied</th>
-   <th>dMean</th>
-   <th>dMeanM</th>
-   <th>dStd</th>
-   <th>dStdM</th>
-   <th>dMedian</th>
-   <th>dMedianM</th>
-    <th>eMinM</th>
-    <th>eMaxM</th>
-    <th>eMinN</th>
-    <th>eMaxN</th>
-    <th>dMinM</th>
-    <th>dMaxM</th>
-    <th>dMinN</th>
-    <th>dMaxN</th>
+   
+    <th>dRankStart</th>
+    <th>dRankEnd</th>
+   <th>dRankNtied</th>
+   
+    <th>mPlayers</th>
+
     <th>failed</th>
     <th>received</th>
 </tr>
@@ -511,39 +496,24 @@
     <td>{{playerID}}</td>
     <td>{{group}}</td>
     <td>{{round}}</td>
-    <td>{{eLevel}}</td>
     <td>{{dCount}}</td>
+    <td>{{currentdCount}}</td>
+    
+    <td>{{eStart}}</td>
+    <td>{{eRound}}</td>
+    <td>{{eLevel}}</td>
+    
     <td>{{nPlayers}}</td>
-    <td>{{mPlayers}}</td>
-    <td>{{eRankN}}</td>
+    <td>{{eRankStart}}</td>
+    <td>{{eRankEnd}}</td>
    <td>{{eRankNtied}}</td>
-    <td>{{eRankM}}</td>
-    <td>{{eRankMtied}}</td>
-    <td>{{eMean}}</td>
-    <td>{{eMeanM}}</td>
-    <td>{{eStd}}</td>
-    <td>{{eStdM}}</td>
-    <td>{{eMedian}}</td>
-    <td>{{eMedianM}}</td>
-    <td>{{dRankN}}</td>
+   
+    <td>{{dRankStart}}</td>
+    <td>{{dRankEnd}}</td>
    <td>{{dRankNtied}}</td>
-    <td>{{dRankM}}</td>
-   <td>{{dRankMtied}}</td>
-   <td>{{dMean}}</td>
-   <td>{{dMeanM}}</td>
-   <td>{{dStd}}</td>
-   <td>{{dStdM}}</td>
-   <td>{{dMedian}}</td>
-   <td>{{dMedianM}}</td>
-   <td>{{dMedian}}</td>
-    <td>{{eMinM}}</td>
-    <td>{{eMaxM}}</td>
-    <td>{{eMinN}}</td>
-    <td>{{eMaxN}}</td>
-    <td>{{dMinM}}</td>
-    <td>{{dMaxM}}</td>
-    <td>{{dMinN}}</td>
-    <td>{{dMaxN}}</td>
+   
+    <td>{{mPlayers}}</td>
+
     <td>{{failed}}</td>
     <td>{{received}}</td>
 </tr>

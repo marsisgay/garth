@@ -34,6 +34,7 @@ Template.index.helpers({
     },
     gamestarted: function () {
         return Session.get('gamestarted');
+        
     },
     roundinplay: function () {
         return Session.get('roundinplay');
@@ -56,6 +57,8 @@ Template.index.helpers({
     signedin: function(){
         return Session.get('signedin');
     }
+
+   
 
 });   
 Template.index.events({
@@ -88,7 +91,6 @@ Template.instructions.helpers({
     Session.set('readinstructions',true);
     }
 });
-
 Template.instructions.events({
     
 });
